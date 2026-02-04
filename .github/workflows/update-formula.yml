@@ -1,0 +1,96 @@
+name: Update Formula
+
+on:
+  repository_dispatch:
+    types: [update-formula]
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update formula
+        run: |
+          VERSION="${{ github.event.client_payload.version }}"
+          DARWIN_AMD64="${{ github.event.client_payload.darwin_amd64_sha }}"
+          DARWIN_ARM64="${{ github.event.client_payload.darwin_arm64_sha }}"
+          LINUX_AMD64="${{ github.event.client_payload.linux_amd64_sha }}"
+          LINUX_ARM64="${{ github.event.client_payload.linux_arm64_sha }}"
+
+          cat > Formula/buildguard.rb << FORMULA_EOF
+          # typed: false
+          # frozen_string_literal: true
+
+          class Buildguard < Formula
+            desc "Compliance scanner for GitHub organizations - 5 built-in policies"
+            homepage "https://github.com/Build-Flow-Labs/buildguard-oss"
+            version "VERSION_PLACEHOLDER"
+            license :cannot_represent
+
+            on_macos do
+              on_intel do
+                url "https://github.com/Build-Flow-Labs/buildguard-oss/releases/download/vVERSION_PLACEHOLDER/buildguard-darwin-amd64"
+                sha256 "DARWIN_AMD64_PLACEHOLDER"
+
+                def install
+                  bin.install "buildguard-darwin-amd64" => "buildguard"
+                end
+              end
+
+              on_arm do
+                url "https://github.com/Build-Flow-Labs/buildguard-oss/releases/download/vVERSION_PLACEHOLDER/buildguard-darwin-arm64"
+                sha256 "DARWIN_ARM64_PLACEHOLDER"
+
+                def install
+                  bin.install "buildguard-darwin-arm64" => "buildguard"
+                end
+              end
+            end
+
+            on_linux do
+              on_intel do
+                url "https://github.com/Build-Flow-Labs/buildguard-oss/releases/download/vVERSION_PLACEHOLDER/buildguard-linux-amd64"
+                sha256 "LINUX_AMD64_PLACEHOLDER"
+
+                def install
+                  bin.install "buildguard-linux-amd64" => "buildguard"
+                end
+              end
+
+              on_arm do
+                url "https://github.com/Build-Flow-Labs/buildguard-oss/releases/download/vVERSION_PLACEHOLDER/buildguard-linux-arm64"
+                sha256 "LINUX_ARM64_PLACEHOLDER"
+
+                def install
+                  bin.install "buildguard-linux-arm64" => "buildguard"
+                end
+              end
+            end
+
+            test do
+              assert_match "BuildGuard version", shell_output("#{bin}/buildguard version")
+            end
+          end
+          FORMULA_EOF
+
+          # Replace placeholders with actual values
+          sed -i "s/VERSION_PLACEHOLDER/${VERSION}/g" Formula/buildguard.rb
+          sed -i "s/DARWIN_AMD64_PLACEHOLDER/${DARWIN_AMD64}/g" Formula/buildguard.rb
+          sed -i "s/DARWIN_ARM64_PLACEHOLDER/${DARWIN_ARM64}/g" Formula/buildguard.rb
+          sed -i "s/LINUX_AMD64_PLACEHOLDER/${LINUX_AMD64}/g" Formula/buildguard.rb
+          sed -i "s/LINUX_ARM64_PLACEHOLDER/${LINUX_ARM64}/g" Formula/buildguard.rb
+
+          cat Formula/buildguard.rb
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/buildguard.rb
+          git commit -m "Update buildguard to v${{ github.event.client_payload.version }}"
+          git push
