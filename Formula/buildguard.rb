@@ -4,13 +4,13 @@
 class Buildguard < Formula
   desc "Compliance scanner for GitHub organizations - 5 built-in policies"
   homepage "https://github.com/Build-Flow-Labs/buildguard-oss"
-  version "0.0.2-test"
+  version "0.2.0"
   license :cannot_represent
 
   on_macos do
     on_intel do
-      url "https://github.com/Build-Flow-Labs/buildguard-oss/releases/download/v0.0.2-test/buildguard-darwin-amd64"
-      sha256 "af0889360b83f50756fda81737819ba80c32fcaccd8bddff7a9bb99ad6748220"
+      url "https://github.com/Build-Flow-Labs/buildguard-oss/releases/download/v0.2.0/buildguard-darwin-amd64"
+      sha256 "f01641bff8cb07bb810dc861e18306da1ef833787ab00a8a9d9df15de509b660"
 
       def install
         bin.install "buildguard-darwin-amd64" => "buildguard"
@@ -18,8 +18,8 @@ class Buildguard < Formula
     end
 
     on_arm do
-      url "https://github.com/Build-Flow-Labs/buildguard-oss/releases/download/v0.0.2-test/buildguard-darwin-arm64"
-      sha256 "b47d9ce50fe5a025029d20157605304d8282ced082d3505a1d5c659e50947a5a"
+      url "https://github.com/Build-Flow-Labs/buildguard-oss/releases/download/v0.2.0/buildguard-darwin-arm64"
+      sha256 "1877011636e36f4365a817c8a8544612b4b09484ac98af8f45ee385476fb86c5"
 
       def install
         bin.install "buildguard-darwin-arm64" => "buildguard"
@@ -29,8 +29,8 @@ class Buildguard < Formula
 
   on_linux do
     on_intel do
-      url "https://github.com/Build-Flow-Labs/buildguard-oss/releases/download/v0.0.2-test/buildguard-linux-amd64"
-      sha256 "84956d4812aeaf63d1e3345404034ee95861376440010f86d0dc587cef7e3971"
+      url "https://github.com/Build-Flow-Labs/buildguard-oss/releases/download/v0.2.0/buildguard-linux-amd64"
+      sha256 "879af79cc3f07bb64a9d530768437c02dfe7e40d65c7689713f112e0b7988dbc"
 
       def install
         bin.install "buildguard-linux-amd64" => "buildguard"
@@ -38,8 +38,8 @@ class Buildguard < Formula
     end
 
     on_arm do
-      url "https://github.com/Build-Flow-Labs/buildguard-oss/releases/download/v0.0.2-test/buildguard-linux-arm64"
-      sha256 "8dc0c4ad60b1f5e36bdfdd00a092c26e4f2ca034da1ffddc9d6bb0ccd32a2493"
+      url "https://github.com/Build-Flow-Labs/buildguard-oss/releases/download/v0.2.0/buildguard-linux-arm64"
+      sha256 "16cf51c772adffc4e5b8967ccac145076c48c7286968ce797630dd1d15d62f16"
 
       def install
         bin.install "buildguard-linux-arm64" => "buildguard"
